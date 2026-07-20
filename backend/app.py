@@ -25,9 +25,15 @@ CORS(app)
 # -------------------------------------------------
 # RDS Configuration
 # -------------------------------------------------
+DB_USER = os.getenv("DB_USER", "admin")
+DB_PASSWORD = os.getenv("DB_PASSWORD", "admin123")
+DB_HOST = os.getenv("DB_HOST", "officedb.c1ksc204yo6w.ap-southeast-1.rds.amazonaws.com")
+DB_NAME = os.getenv("DB_NAME", "officedb")
 
-app.config["SQLALCHEMY_DATABASE_URI"] = \
-"mysql+pymysql://admin:admin123@officedb.c1ksc204yo6w.ap-southeast-1.rds.amazonaws.com/officedb"
+app.config["SQLALCHEMY_DATABASE_URI"] = (
+    f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}"
+)
+
 
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
