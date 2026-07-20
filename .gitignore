@@ -30,3 +30,7 @@ frontend/build/
 # OS Files
 .DS_Store
 Thumbs.db
+
+# Docker
+*.tar
+docker-compose.override.yml
