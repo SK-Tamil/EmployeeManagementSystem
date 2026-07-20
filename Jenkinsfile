@@ -21,7 +21,7 @@ pipeline {
             steps {
                 git branch: 'main',
                 credentialsId: 'github-token',
-                url: ''
+                url: 'https://github.com/SK-Tamil/EmployeeManagementSystem.git'
             }
         }
 
