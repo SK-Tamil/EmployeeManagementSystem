@@ -54,12 +54,12 @@ pipeline {
         }
 
         stage('Docker Build') {
-            steps {
-                sh '''
-                docker build -t $IMAGE_NAME:$IMAGE_TAG .
-                '''
-            }
-        }
+    steps {
+        sh '''
+        docker build -f backend/Dockerfile -t $IMAGE_NAME:$IMAGE_TAG backend
+        '''
+    }
+}
 
         stage('Trivy Scan') {
             steps {
