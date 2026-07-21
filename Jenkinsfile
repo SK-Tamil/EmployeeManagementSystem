@@ -2,11 +2,14 @@ pipeline {
 
     agent any
 
+    options {
+        skipDefaultCheckout(true)
+    }
+
     stages {
 
         stage('Checkout') {
             steps {
-                echo "Checking out source code..."
                 checkout scm
             }
         }
@@ -15,27 +18,12 @@ pipeline {
             steps {
                 dir('backend') {
                     sh '''
-                        python3 -m venv venv
-                        . venv/bin/activate
-                        pip install --upgrade pip
-                        pip install -r requirements.txt
+                        python3 -m pip install --upgrade pip
+                        pip3 install -r requirements.txt
                     '''
                 }
             }
         }
 
     }
-
-    post {
-
-        success {
-            echo "Pipeline executed successfully!"
-        }
-
-        failure {
-            echo "Pipeline execution failed!"
-        }
-
-    }
-
 }
