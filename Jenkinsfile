@@ -1,6 +1,7 @@
 pipeline {
     agent any
-environment {
+
+    environment {
         DB_USER = credentials('DB_USER')
         DB_PASSWORD = credentials('DB_PASSWORD')
         DB_HOST = credentials('DB_HOST')
@@ -8,6 +9,7 @@ environment {
         S3_BUCKET = credentials('S3_BUCKET')
         S3_REGION = credentials('S3_REGION')
     }
+
     stages {
 
         stage('Checkout') {
@@ -22,8 +24,24 @@ environment {
                     sh '''
                     python3 -m venv venv
                     . venv/bin/activate
+
                     pip install -r requirements.txt
-                    pytest
+
+                    coverage run -m pytest
+                    coverage xml
+                    '''
+                }
+            }
+        }
+
+        stage('SonarQube Analysis') {
+            environment {
+                scannerHome = tool 'SonarScanner'
+            }
+            steps {
+                withSonarQubeEnv('SonarQube') {
+                    sh '''
+                    ${scannerHome}/bin/sonar-scanner
                     '''
                 }
             }
@@ -31,7 +49,7 @@ environment {
 
         stage('Build') {
             steps {
-                echo "Backend Tests Passed"
+                echo "Backend Tests and SonarQube Analysis Passed"
             }
         }
     }
