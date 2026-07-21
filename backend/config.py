@@ -1,0 +1,19 @@
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+class Config:
+
+    SQLALCHEMY_DATABASE_URI = (
+        f"mysql+pymysql://{os.getenv('DB_USER')}:"
+        f"{os.getenv('DB_PASSWORD')}@"
+        f"{os.getenv('DB_HOST')}/"
+        f"{os.getenv('DB_NAME')}"
+    )
+
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    S3_BUCKET = os.getenv("S3_BUCKET")
+
+    S3_REGION = os.getenv("S3_REGION")
