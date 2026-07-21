@@ -103,7 +103,18 @@ def home():
         "message": "Employee Management Backend Running Successfully"
 
     })
+# -------------------------------------------------
+# Health Check API
+# -------------------------------------------------
 
+@app.route("/health", methods=["GET"])
+def health():
+
+    return jsonify({
+
+        "status": "UP"
+
+    }), 200
 
 # -------------------------------------------------
 # GET ALL EMPLOYEES
