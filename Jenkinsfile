@@ -14,20 +14,28 @@ pipeline {
             }
         }
 
-        stage('Backend Dependencies') {
+        stage('Build Backend Docker Image') {
             steps {
                 dir('backend') {
                     sh '''
-                        which python3
-                        python3 --version
-
-                        which pip3
-                        pip3 --version
-
-                        pip3 install -r requirements.txt
+                        docker build -t employee-backend:v1 .
                     '''
                 }
             }
         }
+
     }
+
+    post {
+
+        success {
+            echo 'Backend Docker Image Built Successfully!'
+        }
+
+        failure {
+            echo 'Backend Docker Build Failed!'
+        }
+
+    }
+
 }
