@@ -82,21 +82,21 @@ pipeline {
         '''
     }
 }
-    stage('Deploy to Development') {
+   stage('Deploy to Development') {
     steps {
         sh '''
         docker pull 808872801655.dkr.ecr.ap-southeast-1.amazonaws.com/employee-management-backend:latest
 
-        docker stop employee-backend || true
-        docker rm employee-backend || true
+        docker stop backend || true
+        docker rm backend || true
 
         docker run -d \
-          --name employee-backend \
+          --name backend \
           -p 5000:5000 \
-          --env-file backend/.env \
+          --env-file /home/ubuntu/EmployeeManagementSystem/backend/.env \
           808872801655.dkr.ecr.ap-southeast-1.amazonaws.com/employee-management-backend:latest
         '''
     }
-}  
+} 
     }
 }
