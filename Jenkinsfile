@@ -11,6 +11,17 @@ pipeline {
             }
         }
 
-    }
+        stage('Backend Dependencies') {
+            steps {
+                dir('backend') {
+                    sh '''
+                        python3 --version
+                        pip3 --version
+                        pip3 install -r requirements.txt
+                    '''
+                }
+            }
+        }
 
+    }
 }
