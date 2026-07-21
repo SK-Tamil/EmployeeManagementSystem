@@ -53,14 +53,18 @@ pipeline {
         '''
     }
 }
-        stage('Trivy Scan') {
+    stage('Trivy Scan') {
     steps {
         sh '''
-            echo "Scanning Backend Image..."
-            trivy image employee-backend:v1
+            mkdir -p trivy-reports
 
-            echo "Scanning Frontend Image..."
-            trivy image employee-frontend:v1
+            trivy image --format json \
+              -o trivy-reports/backend-report.json \
+              employee-backend:v1 || true
+
+            trivy image --format json \
+              -o trivy-reports/frontend-report.json \
+              employee-frontend:v1 || true
         '''
     }
 }
