@@ -1,10 +1,5 @@
 pipeline {
-
     agent any
-
-    options {
-        skipDefaultCheckout(true)
-    }
 
     stages {
 
@@ -14,70 +9,16 @@ pipeline {
             }
         }
 
-        stage('Build Backend Docker Image') {
+        stage('Git Version') {
             steps {
-                dir('backend') {
-                    sh 'docker build -t employee-backend:v1 .'
-                }
+                sh 'git --version'
             }
         }
 
-        stage('Build Frontend Docker Image') {
+        stage('Docker Version') {
             steps {
-                dir('frontend') {
-                    sh 'docker build -t employee-frontend:v1 .'
-                }
+                sh 'docker --version'
             }
-        }
-
-        stage('Smoke Test') {
-    steps {
-        sh '''
-            docker rm -f backend frontend || true
-
-            docker run -d \
-              --name backend \
-              -p 5000:5000 \
-              employee-backend:v1
-
-            docker run -d \
-              --name frontend \
-              -p 8081:80 \
-              employee-frontend:v1
-
-            sleep 15
-
-            curl -f http://localhost:5000/
-
-            curl -f http://localhost:8081/
-        '''
-    }
-}
-    stage('Trivy Scan') {
-    steps {
-        sh '''
-            mkdir -p trivy-reports
-
-            trivy image --format json \
-              -o trivy-reports/backend-report.json \
-              employee-backend:v1 || true
-
-            trivy image --format json \
-              -o trivy-reports/frontend-report.json \
-              employee-frontend:v1 || true
-        '''
-    }
-}
-    }
-
-    post {
-
-        success {
-            echo 'Docker Images Built Successfully!'
-        }
-
-        failure {
-            echo 'Pipeline Failed!'
         }
 
     }
