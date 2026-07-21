@@ -46,11 +46,41 @@ pipeline {
                 }
             }
         }
-
-        stage('Build') {
-            steps {
-                echo "Backend Tests and SonarQube Analysis Passed"
-            }
+        stage('Docker Build') {
+    steps {
+        dir('backend') {
+            sh '''
+            docker build -t employee-management-backend:latest .
+            '''
         }
+    }
+}
+        stage('Login to ECR') {
+    steps {
+        sh '''
+        aws ecr get-login-password --region ap-southeast-1 | \
+        docker login \
+        --username AWS \
+        --password-stdin 808872801655.dkr.ecr.ap-southeast-1.amazonaws.com
+        '''
+    }
+}
+        stage('Tag Docker Image') {
+    steps {
+        sh '''
+        docker tag employee-management-backend:latest \
+        808872801655.dkr.ecr.ap-southeast-1.amazonaws.com/employee-management-backend:latest
+        '''
+    }
+}
+        stage('Push to ECR') {
+    steps {
+        sh '''
+        docker push \
+        808872801655.dkr.ecr.ap-southeast-1.amazonaws.com/employee-management-backend:latest
+        '''
+    }
+}
+        
     }
 }
