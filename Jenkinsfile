@@ -18,12 +18,16 @@ pipeline {
             steps {
                 dir('backend') {
                     sh '''
-                        python3 -m pip install --upgrade pip
+                        which python3
+                        python3 --version
+
+                        which pip3
+                        pip3 --version
+
                         pip3 install -r requirements.txt
                     '''
                 }
             }
         }
-
     }
 }
