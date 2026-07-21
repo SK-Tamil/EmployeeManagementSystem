@@ -8,7 +8,7 @@ pipeline {
         DB_NAME = credentials('DB_NAME')
         S3_BUCKET = credentials('S3_BUCKET')
         S3_REGION = credentials('S3_REGION')
-        ECR_REPOSITORY = '808872801655.dkr.ecr.ap-southeast-1.amazonaws.com/employee-management-backend'
+        
     }
 
     stages {
@@ -85,18 +85,18 @@ pipeline {
     stage('Deploy to Development') {
     steps {
         sh '''
-        docker pull ${ECR_REPOSITORY}:latest
+        docker pull 808872801655.dkr.ecr.ap-southeast-1.amazonaws.com/employee-management-backend:latest
 
         docker stop employee-backend || true
         docker rm employee-backend || true
 
         docker run -d \
-            --name employee-backend \
-            -p 5000:5000 \
-            --env-file backend/.env \
-            ${ECR_REPOSITORY}:latest
+          --name employee-backend \
+          -p 5000:5000 \
+          --env-file backend/.env \
+          808872801655.dkr.ecr.ap-southeast-1.amazonaws.com/employee-management-backend:latest
         '''
     }
-}    
+}  
     }
 }
