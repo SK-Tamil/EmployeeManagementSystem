@@ -8,6 +8,7 @@ pipeline {
         DB_NAME = credentials('DB_NAME')
         S3_BUCKET = credentials('S3_BUCKET')
         S3_REGION = credentials('S3_REGION')
+        ECR_REPOSITORY = '808872801655.dkr.ecr.ap-southeast-1.amazonaws.com/employee-management-backend'
     }
 
     stages {
