@@ -33,29 +33,23 @@ pipeline {
         stage('Smoke Test') {
     steps {
         sh '''
-        docker rm -f backend frontend || true
-        docker network rm employee-network || true
+            docker rm -f backend frontend || true
 
-        docker network create employee-network
+            docker run -d \
+              --name backend \
+              -p 5000:5000 \
+              employee-backend:v1
 
-        docker run -d \
-          --name backend \
-          --network employee-network \
-          -p 5000:5000 \
-          employee-backend:v1
+            docker run -d \
+              --name frontend \
+              -p 8081:80 \
+              employee-frontend:v1
 
-        docker run -d \
-          --name frontend \
-          --network employee-network \
-          -p 8081:80 \
-          employee-frontend:v1
+            sleep 15
 
-        sleep 15
+            curl -f http://localhost:5000/
 
-        docker ps
-
-        curl -f http://localhost:5000/
-        curl -f http://localhost:8081/
+            curl -f http://localhost:8081/
         '''
     }
 }
