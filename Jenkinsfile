@@ -53,6 +53,17 @@ pipeline {
         '''
     }
 }
+        stage('Trivy Scan') {
+    steps {
+        sh '''
+            echo "Scanning Backend Image..."
+            trivy image employee-backend:v1
+
+            echo "Scanning Frontend Image..."
+            trivy image employee-frontend:v1
+        '''
+    }
+}
     }
 
     post {
