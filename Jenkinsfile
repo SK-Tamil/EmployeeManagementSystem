@@ -17,9 +17,15 @@ pipeline {
         stage('Build Backend Docker Image') {
             steps {
                 dir('backend') {
-                    sh '''
-                        docker build -t employee-backend:v1 .
-                    '''
+                    sh 'docker build -t employee-backend:v1 .'
+                }
+            }
+        }
+
+        stage('Build Frontend Docker Image') {
+            steps {
+                dir('frontend') {
+                    sh 'docker build -t employee-frontend:v1 .'
                 }
             }
         }
@@ -29,13 +35,12 @@ pipeline {
     post {
 
         success {
-            echo 'Backend Docker Image Built Successfully!'
+            echo 'Docker Images Built Successfully!'
         }
 
         failure {
-            echo 'Backend Docker Build Failed!'
+            echo 'Pipeline Failed!'
         }
 
     }
-
 }
