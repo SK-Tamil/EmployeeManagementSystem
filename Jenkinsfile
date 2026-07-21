@@ -97,7 +97,8 @@ pipeline {
           808872801655.dkr.ecr.ap-southeast-1.amazonaws.com/employee-management-backend:latest
         '''
     }
-} stage('Health Check') {
+} 
+        stage('Health Check') {
     steps {
         sh '''
         sleep 15
