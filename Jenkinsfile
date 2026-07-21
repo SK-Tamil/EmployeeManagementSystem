@@ -33,33 +33,29 @@ pipeline {
         stage('Smoke Test') {
     steps {
         sh '''
-            # Remove old containers if they exist
-            docker rm -f backend-test || true
-            docker rm -f frontend-test || true
+        docker rm -f backend frontend || true
+        docker network rm employee-network || true
 
-            # Run backend
-            docker run -d \
-              --name backend-test \
-              -p 5000:5000 \
-              employee-backend:v1
+        docker network create employee-network
 
-            # Run frontend
-            docker run -d \
-              --name frontend-test \
-              -p 8081:80 \
-              employee-frontend:v1
+        docker run -d \
+          --name backend \
+          --network employee-network \
+          -p 5000:5000 \
+          employee-backend:v1
 
-            # Wait for containers
-            sleep 15
+        docker run -d \
+          --name frontend \
+          --network employee-network \
+          -p 8081:80 \
+          employee-frontend:v1
 
-            # Check running containers
-            docker ps
+        sleep 15
 
-            # Backend Health Check
-            curl -f http://localhost:5000/
+        docker ps
 
-            # Frontend Health Check
-            curl -f http://localhost:8081/
+        curl -f http://localhost:5000/
+        curl -f http://localhost:8081/
         '''
     }
 }
