@@ -81,6 +81,21 @@ pipeline {
         '''
     }
 }
-        
+    stage('Deploy to Development') {
+    steps {
+        sh '''
+        docker pull ${ECR_REPOSITORY}:latest
+
+        docker stop employee-backend || true
+        docker rm employee-backend || true
+
+        docker run -d \
+            --name employee-backend \
+            -p 5000:5000 \
+            --env-file backend/.env \
+            ${ECR_REPOSITORY}:latest
+        '''
+    }
+}    
     }
 }
