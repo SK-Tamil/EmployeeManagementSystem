@@ -1,18 +1,37 @@
 version: "3.9"
 
 services:
+
   backend:
-    build: ./backend
-    container_name: employee-backend
+    build:
+      context: ./backend
+
+    container_name: backend
+
     ports:
       - "5000:5000"
+
+    environment:
+      DB_USER: admin
+      DB_PASSWORD: admin123
+      DB_HOST: employee-db.c1ksc204yo6w.ap-southeast-1.rds.amazonaws.com
+      DB_NAME: officedb
+
+      S3_BUCKET: employee-profile-images-tamilselvan-2026
+      S3_REGION: ap-southeast-1
+
     restart: always
 
   frontend:
-    build: ./frontend
-    container_name: employee-frontend
+    build:
+      context: ./frontend
+
+    container_name: frontend
+
     ports:
       - "80:80"
+
     depends_on:
       - backend
+
     restart: always

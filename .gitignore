@@ -1,36 +1,42 @@
+
 # Python
-__pycache__/
-*.py[cod]
-*.pyo
-*.pyd
-
-# Virtual Environment
-venv/
+backend/__pycache__/
+backend/*.pyc
+backend/.pytest_cache/
 backend/venv/
-
-# Environment Variables
-.env
-
-# Uploads
-backend/uploads/*
-
-# Keep uploads folder
-!backend/uploads/.gitkeep
 
 # React
 frontend/node_modules/
 frontend/build/
 
-# Logs
+# Environment
+.env
+*.env
+
+# Docker
 *.log
 
-# VS Code
+# IDE
 .vscode/
+.idea/
 
-# OS Files
+# OS
 .DS_Store
 Thumbs.db
 
-# Docker
-*.tar
-docker-compose.override.yml
+# Python cache
+*.pyo
+*.pyd
+
+# Test reports
+coverage/
+htmlcov/
+
+# Jenkins
+.jenkins/
+
+# Sonar
+.sonar/
+
+# Misc
+*.swp

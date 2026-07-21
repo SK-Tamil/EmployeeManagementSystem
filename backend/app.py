@@ -25,10 +25,10 @@ CORS(app)
 # -------------------------------------------------
 # RDS Configuration
 # -------------------------------------------------
-DB_USER = os.getenv("DB_USER", "admin")
-DB_PASSWORD = os.getenv("DB_PASSWORD", "admin123")
-DB_HOST = os.getenv("DB_HOST", "employee-db.c1ksc204yo6w.ap-southeast-1.rds.amazonaws.com")
-DB_NAME = os.getenv("DB_NAME", "officedb")
+DB_USER = os.getenv("DB_USER")
+DB_PASSWORD = os.getenv("DB_PASSWORD")
+DB_HOST = os.getenv("DB_HOST")
+DB_NAME = os.getenv("DB_NAME")
 
 app.config["SQLALCHEMY_DATABASE_URI"] = (
     f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}"
@@ -43,9 +43,9 @@ db = SQLAlchemy(app)
 # Amazon S3 Configuration
 # -------------------------------------------------
 
-S3_BUCKET = "employee-profile-images-tamilselvan-2026"
+S3_BUCKET = os.getenv("S3_BUCKET")
 
-S3_REGION = "ap-southeast-1"
+S3_REGION = os.getenv("S3_REGION")
 
 s3 = boto3.client("s3")
 
@@ -347,6 +347,6 @@ if __name__ == "__main__":
 
         port=5000,
 
-        debug=True
+        debug=False
 
     )
