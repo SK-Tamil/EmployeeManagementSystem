@@ -1,6 +1,13 @@
 pipeline {
     agent any
-
+environment {
+        DB_USER = credentials('DB_USER')
+        DB_PASSWORD = credentials('DB_PASSWORD')
+        DB_HOST = credentials('DB_HOST')
+        DB_NAME = credentials('DB_NAME')
+        S3_BUCKET = credentials('S3_BUCKET')
+        S3_REGION = credentials('S3_REGION')
+    }
     stages {
 
         stage('Checkout') {
